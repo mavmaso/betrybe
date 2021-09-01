@@ -1,10 +1,10 @@
 # Tri
  
-  Uma api RESTfull.
+  Uma api RESTfull. Para demostrar minha maneira de codar.
 
 ### Proposal Problem
 
-  Criar uma api de blog seguindo certas regras.
+  Criar uma api de blog seguindo certas regras. Algumas coisas, como o login, foram simplificadas, por ser apenas uma demostração.
 
 ## Deps for Linux
 
