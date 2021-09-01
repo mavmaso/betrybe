@@ -9,6 +9,8 @@ defmodule TriWeb.Router do
     pipe_through :api
 
     resources "/users", UserController, only: [:show, :create]
+
+    post "/login", SessionController, :login
   end
 
   # Enables LiveDashboard only for development

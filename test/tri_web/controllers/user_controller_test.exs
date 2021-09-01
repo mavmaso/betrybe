@@ -30,12 +30,11 @@ defmodule TriWeb.UserControllerTest do
 
     test "renders errors when data is invalid", %{conn: conn} do
       conn = post(conn, Routes.user_path(conn, :create), user: @invalid_attrs)
-      assert errors = json_response(conn, 400)["errors"]
-      assert errors == %{
+      assert %{
         "display_name" => ["should be at least 8 character(s)"],
         "email" => ["invalid email format"],
         "password" => ["should be at least 6 character(s)"]
-      }
+      } = json_response(conn, 400)["errors"]
     end
   end
 end

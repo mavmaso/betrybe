@@ -21,4 +21,10 @@ defmodule TriWeb.FallbackController do
     |> put_view(TriWeb.ErrorView)
     |> render(:"404")
   end
+
+  def call(conn, {:erro, :user_not_found}) do
+    conn
+    |> put_status(400)
+    |> json(%{message: "Invalid params, can't login"})
+  end
 end

@@ -101,4 +101,14 @@ defmodule Tri.Account do
   def change_user(%User{} = user, attrs \\ %{}) do
     User.changeset(user, attrs)
   end
+
+  def authenticate_user(%{"email" => email, "password" => password}) do
+    User
+    |> where([u], u.email == ^email)
+    |> Repo.one()
+    |> case do
+      %User{password: ^password} = user -> {:ok, user}
+      _ -> {:erro, :user_not_found}
+    end
+  end
 end
