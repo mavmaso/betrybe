@@ -23,6 +23,7 @@ defmodule TriWeb.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
       import TriWeb.ConnCase
+      import TriWeb.TestSupport
 
       alias TriWeb.Router.Helpers, as: Routes
 

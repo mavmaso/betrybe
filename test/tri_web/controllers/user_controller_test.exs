@@ -6,17 +6,20 @@ defmodule TriWeb.UserControllerTest do
   @invalid_attrs %{display_name: "Erro", email: "mail.com", password: "1234"}
 
   setup %{conn: conn} do
-    {:ok, conn: put_req_header(conn, "accept", "application/json")}
+    {:ok, conn: put_req_header(conn, "accept", "application/json"), user: insert(:user)}
   end
 
   describe "create user" do
-    test "renders user when data is valid", %{conn: conn} do
+    test "renders user when data is valid", %{conn: conn, user: user} do
       params = params_for(:user)
 
-      conn = post(conn, Routes.user_path(conn, :create), user: params)
-      assert %{"id" => id} = json_response(conn, 201)["data"]
+      new_conn = post(conn, Routes.user_path(conn, :create), user: params)
+      assert %{"id" => id} = json_response(new_conn, 201)["data"]
 
-      conn = get(conn, Routes.user_path(conn, :show, id))
+      conn =
+        login(conn, user)
+        |> get(Routes.user_path(conn, :show, id))
+
 
       map = %{
         "id" => id,

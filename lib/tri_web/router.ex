@@ -5,6 +5,11 @@ defmodule TriWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :jwt do
+    plug TriWeb.AuthPlug
+    plug :accepts, ["json"]
+  end
+
   scope "/", TriWeb do
     pipe_through :api
 
@@ -14,8 +19,9 @@ defmodule TriWeb.Router do
   end
 
   scope "/", TriWeb do
-    pipe_through :api
+    pipe_through :jwt
 
+    # get "/user", UserController, :index
     get "/user/:id", UserController, :show
   end
 end
