@@ -3,6 +3,7 @@ defmodule TriWeb.UserController do
 
   alias Tri.Account
   alias Tri.Account.User
+  alias Tri.Guardian
 
   action_fallback TriWeb.FallbackController
 
@@ -11,11 +12,12 @@ defmodule TriWeb.UserController do
     render(conn, "show.json", user: user)
   end
 
-  def create(conn, %{"user" => user_params}) do
-    with {:ok, %User{} = user} <- Account.create_user(user_params) do
+  def create(conn, user_params) do
+    with {:ok, %User{} = user} <- Account.create_user(user_params),
+      {:ok, token, _claims} = Guardian.encode_and_sign(user) do
       conn
       |> put_status(:created)
-      |> render("show.json", user: user)
+      |> json(%{token: token})
     end
   end
 end

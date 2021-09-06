@@ -1,5 +1,5 @@
 defmodule TriWeb.SessionControllerTest do
-  use TriWeb.ConnCase
+  use TriWeb.ConnCase, async: true
 
   import Tri.Factory
 
