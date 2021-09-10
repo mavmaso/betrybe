@@ -20,4 +20,13 @@ defmodule TriWeb.UserController do
       |> json(%{token: token})
     end
   end
+
+  def delete(conn, _params) do
+    %{"sub" => id} = Tri.Guardian.get_claims(conn)
+    user = Account.get_user!(id)
+
+    with {:ok, %User{}} <- Account.delete_user(user) do
+      send_resp(conn, :no_content, "")
+    end
+  end
 end

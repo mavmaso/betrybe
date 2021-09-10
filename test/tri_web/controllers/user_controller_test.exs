@@ -44,4 +44,17 @@ defmodule TriWeb.UserControllerTest do
       assert map == json_response(conn, 200)["data"]
     end
   end
+
+  describe "delete user" do
+    test "with valid data, renders :ok", %{conn: conn , user: user} do
+      conn =
+        login(conn, user)
+        |> delete(Routes.user_path(conn, :delete))
+
+      assert response(conn, 204)
+      assert_error_sent 404, fn ->
+        get(conn, Routes.user_path(conn, :show, user))
+      end
+    end
+  end
 end
