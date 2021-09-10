@@ -17,4 +17,10 @@ defmodule Tri.Guardian do
   def resource_from_claims(_claims) do
     {:error, :reason_for_error}
   end
+
+  def get_claims(conn) do
+    {:ok, claims} = Guardian.Plug.current_token(conn) |> decode_and_verify()
+
+    claims
+  end
 end

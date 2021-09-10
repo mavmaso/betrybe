@@ -4,4 +4,5 @@ defmodule Tri.Factory do
   use ExMachina.Ecto, repo: Tri.Repo
 
   use Tri.UserFactory
+  use Tri.PostFactory
 end

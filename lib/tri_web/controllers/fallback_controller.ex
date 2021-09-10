@@ -27,4 +27,10 @@ defmodule TriWeb.FallbackController do
     |> put_status(400)
     |> json(%{message: "Invalid params, can't login"})
   end
+
+  def call(conn, {:error, :not_owner}) do
+    conn
+    |> put_status(400)
+    |> json(%{message: "Not the owner"})
+  end
 end

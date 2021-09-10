@@ -1,5 +1,5 @@
 defmodule Tri.AccountTest do
-  use Tri.DataCase
+  use Tri.DataCase, async: true
 
   alias Tri.Account
 

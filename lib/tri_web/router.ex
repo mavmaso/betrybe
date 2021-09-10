@@ -23,5 +23,7 @@ defmodule TriWeb.Router do
 
     # get "/user", UserController, :index
     get "/user/:id", UserController, :show
+
+    resources "/posts", PostController, except: [:new, :edit]
   end
 end
