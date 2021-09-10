@@ -50,7 +50,9 @@
   }
   ```
 
- - Ver user (get /user/:id )
+ - Ver user ( get /user/:id )
+
+ - Ver users ( get /user/ )
 
 ## Made by
 

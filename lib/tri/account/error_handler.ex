@@ -1,4 +1,4 @@
-defmodule Tri.Accounts.ErrorHandler do
+defmodule Tri.Account.ErrorHandler do
   import Plug.Conn
 
   @behaviour Guardian.Plug.ErrorHandler

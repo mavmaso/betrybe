@@ -1,7 +1,7 @@
 defmodule TriWeb.AuthPlug do
   use Guardian.Plug.Pipeline,
     otp_app: :tri,
-    error_handler: Tri.Accounts.ErrorHandler,
+    error_handler: Tri.Account.ErrorHandler,
     module: Tri.Guardian
 
   plug Guardian.Plug.VerifyHeader, scheme: "Bearer"

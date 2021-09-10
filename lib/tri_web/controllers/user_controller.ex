@@ -29,4 +29,9 @@ defmodule TriWeb.UserController do
       send_resp(conn, :no_content, "")
     end
   end
+
+  def index(conn, _params) do
+    users = Account.list_users()
+    render(conn, "index.json", users: users)
+  end
 end

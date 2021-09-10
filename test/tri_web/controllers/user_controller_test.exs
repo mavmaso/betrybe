@@ -57,4 +57,14 @@ defmodule TriWeb.UserControllerTest do
       end
     end
   end
+
+  describe "index user" do
+    test "with valid data, list users", %{conn: conn , user: user} do
+      conn =
+        login(conn, user)
+        |> get(Routes.user_path(conn, :index))
+
+      assert [_user] = json_response(conn, 200)["data"]
+    end
+  end
 end

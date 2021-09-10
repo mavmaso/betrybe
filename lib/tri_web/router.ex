@@ -21,7 +21,7 @@ defmodule TriWeb.Router do
   scope "/", TriWeb do
     pipe_through :jwt
 
-    # get "/user", UserController, :index
+    get "/user", UserController, :index
     get "/user/:id", UserController, :show
     delete "/user/me", UserController, :delete
 
