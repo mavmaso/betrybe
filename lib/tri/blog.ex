@@ -102,13 +102,21 @@ defmodule Tri.Blog do
     Post.changeset(post, attrs)
   end
 
-  def ownership(%Post{} = post, user_id) do
+  @spec ownership(%Post{}, integer) :: {:error, :not_owner} | {:ok, :owner}
+  @doc """
+  Returns if the user is or not the owner of the post.
+  """
+  def ownership(%Post{} = post, user_id) when is_integer(user_id) do
     case post.user_id do
       x when x == user_id -> {:ok, :owner}
       _ -> {:error, :not_owner}
     end
   end
 
+  @spec search_posts(String.t) :: List.t
+  @doc """
+  Returns a list of posts within the searching term on the title or content of the post.
+  """
   def search_posts(term) do
     Post
     |> where([p], p.content == ^term)

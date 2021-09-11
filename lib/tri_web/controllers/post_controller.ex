@@ -28,8 +28,10 @@ defmodule TriWeb.PostController do
 
   def update(conn, %{"id" => id, "post" => post_params}) do
     post = Blog.get_post!(id)
+    %{"sub" => user_id} = Tri.Guardian.get_claims(conn)
 
-    with {:ok, %Post{} = post} <- Blog.update_post(post, post_params) do
+    with {:ok, :owner} <- Blog.ownership(post, String.to_integer(user_id)),
+      {:ok, %Post{} = post} <- Blog.update_post(post, post_params) do
       render(conn, "show.json", post: post)
     end
   end
@@ -38,7 +40,7 @@ defmodule TriWeb.PostController do
     post = Blog.get_post!(id)
     %{"sub" => user_id} = Tri.Guardian.get_claims(conn)
 
-    with {:ok, :owner} <- Blog.ownership(post, user_id),
+    with {:ok, :owner} <- Blog.ownership(post, String.to_integer(user_id)),
       {:ok, %Post{}} <- Blog.delete_post(post) do
       send_resp(conn, :no_content, "")
     end

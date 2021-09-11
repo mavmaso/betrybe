@@ -1,7 +1,7 @@
 defmodule TriWeb.PostControllerTest do
   use TriWeb.ConnCase, async: true
 
-  alias Tri.Blog.Post
+  alias Tri.Blog
 
   import Tri.Factory
 
@@ -49,16 +49,24 @@ defmodule TriWeb.PostControllerTest do
   describe "update post" do
     setup [:create_post]
 
-    test "renders post when data is valid", %{conn: conn, post: %Post{id: id} = post, user: user} do
+    test "renders post when valid data", %{conn: conn, user: user} do
+      post = insert(:post, %{user: user})
+      %{id: id} = post
+
       conn =
         login(conn, user)
         |> put(Routes.post_path(conn, :update, post), post: @update_attrs)
 
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
-      assert %{
-               "id" => ^id,
-               "title" => "some updated title"
-             } = json_response(conn, 200)["data"]
+      assert %{"title" => "some updated title"} = json_response(conn, 200)["data"]
+    end
+
+    test "renders :error when not the owner", %{conn: conn, post: post, user: user} do
+      conn =
+        login(conn, user)
+        |> put(Routes.post_path(conn, :update, post), post: @update_attrs)
+
+      assert "Not the owner" = json_response(conn, 400)["message"]
     end
 
     test "renders errors when data is invalid", %{conn: conn, post: post, user: user} do
@@ -87,7 +95,10 @@ defmodule TriWeb.PostControllerTest do
         login(conn, user)
         |> delete(Routes.post_path(conn, :delete, post))
 
-      assert response(conn, 400)
+      assert response(conn, 204)
+      assert_raise Ecto.NoResultsError, fn ->
+        Blog.get_post!(post.id)
+      end
     end
   end
 
@@ -96,7 +107,7 @@ defmodule TriWeb.PostControllerTest do
 
     test "renders a list of results when term is found", %{conn: conn, user: user} do
       post_A = insert(:post, %{content: "term"})
-      post_B = insert(:post, %{title: "termo"})
+      post_B = insert(:post, %{title: "term"})
 
       conn =
         login(conn, user)
