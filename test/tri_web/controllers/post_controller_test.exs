@@ -91,6 +91,23 @@ defmodule TriWeb.PostControllerTest do
     end
   end
 
+  describe "search" do
+    setup [:create_post]
+
+    test "renders a list of results when term is found", %{conn: conn, user: user} do
+      post_A = insert(:post, %{content: "term"})
+      post_B = insert(:post, %{title: "termo"})
+
+      conn =
+        login(conn, user)
+        |> get("/post/search?q=term")
+
+      assert subject = json_response(conn, 200)["data"]
+      assert length(subject) == 2
+      assert Enum.all?(subject, fn x -> x["id"] in [post_A.id, post_B.id] end)
+    end
+  end
+
   defp create_post(_) do
     %{post: insert(:post)}
   end

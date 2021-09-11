@@ -25,6 +25,7 @@ defmodule TriWeb.Router do
     get "/user/:id", UserController, :show
     delete "/user/me", UserController, :delete
 
-    resources "/posts", PostController, except: [:new, :edit]
+    resources "/post", PostController, except: [:new, :edit, :show]
+    get "/post/search", PostController, :search
   end
 end

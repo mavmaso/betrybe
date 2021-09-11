@@ -64,11 +64,11 @@
   }
   ```
 
- - Ver post ( get /post/:id )
-
  - Ver todos os posts ( get /post )
 
  - Editar post ( put /post/:id )
+
+ - Procurar nos posts (get /post/search?q=:term )
 
  - Apagar post ( delete /post/:id )
 

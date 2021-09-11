@@ -108,4 +108,11 @@ defmodule Tri.Blog do
       _ -> {:error, :not_owner}
     end
   end
+
+  def search_posts(term) do
+    Post
+    |> where([p], p.content == ^term)
+    |> or_where([p], p.title == ^term)
+    |> Repo.all()
+  end
 end
