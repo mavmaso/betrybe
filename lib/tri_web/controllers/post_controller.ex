@@ -11,7 +11,7 @@ defmodule TriWeb.PostController do
     render(conn, "index.json", posts: posts)
   end
 
-  def create(conn, %{"post" => params}) do
+  def create(conn, params) do
     %{"sub" => sub} = Tri.Guardian.get_claims(conn)
 
     with {:ok, %Post{} = post} <- Blog.create_post(Map.merge(params, %{"user_id" => sub})) do

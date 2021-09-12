@@ -29,7 +29,7 @@ defmodule TriWeb.PostControllerTest do
 
       conn =
         login(conn, user)
-        |> post(Routes.post_path(conn, :create), post: params)
+        |> post(Routes.post_path(conn, :create), params)
       assert %{"id" => id} = json_response(conn, 201)["data"]
       assert %{
                "id" => ^id,
@@ -40,7 +40,7 @@ defmodule TriWeb.PostControllerTest do
     test "renders errors when data is invalid", %{conn: conn, user: user} do
       conn =
         login(conn, user)
-        |> post(Routes.post_path(conn, :create), post: @invalid_attrs)
+        |> post(Routes.post_path(conn, :create), @invalid_attrs)
 
       assert json_response(conn, 400)["errors"] != %{}
     end
